@@ -24,6 +24,26 @@ def print_cube(cube):
     for i in range(0, 9, 3):
         print('      ' + row('D', i))
 
+def rotate_face_cw(face):
+    """Rotates a single face's 9 stickers 90 degrees clockwise."""
+    a, b, c, d, e, f, g, h, i = face
+    return [g, d, a, h, e, b, i, f, c]
+
+
+def move_U(cube):
+    """Applies a clockwise turn of the Up face."""
+    cube['U'] = rotate_face_cw(cube['U'])
+
+    # Save F's top row before overwriting anything
+    f_top = cube['F'][0:3]
+
+    # Shift top rows around: L -> F -> R -> B -> L
+    cube['F'][0:3] = cube['R'][0:3]
+    cube['R'][0:3] = cube['B'][0:3]
+    cube['B'][0:3] = cube['L'][0:3]
+    cube['L'][0:3] = f_top
+
+    return cube
 
 if __name__ == '__main__':
     cube = solved_cube()
